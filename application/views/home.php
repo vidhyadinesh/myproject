@@ -20,11 +20,10 @@
         
         <!-- Data list table --> 
         <table class="table table-striped table-bordered">
-            
             <tbody>
-                <?php if(!empty($subscriptioncontent)){ foreach($subscriptioncontent->hits as $row){ ?>
+                <?php if(!empty($subscriptioncontent)){ foreach(json_decode($subscriptioncontent)->hits as $row){?>
                 <tr>
-                    <td><?php print_r($row->title); ?></td>
+                    <td><?php echo $row->title; ?></td>
                     
                 </tr>
                 <?php } }else{ ?>

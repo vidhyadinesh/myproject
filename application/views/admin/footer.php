@@ -13,7 +13,7 @@
 <script src="<?php //echo base_url(); ?>assets/admin/js/blockUI.js"></script>	
 
 <script type="text/javascript">
-$(function () {
+/*$(function () {
 	// we use an inline data source in the example, usually data would
 	// be fetched from a server
 	var data = [], totalPoints = 300;
@@ -67,7 +67,7 @@ $(function () {
 		setTimeout(update, updateInterval);
 	}
 	update();
-});
+});*/
 </script>
   </body>
 </html>

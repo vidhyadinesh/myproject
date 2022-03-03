@@ -36,7 +36,7 @@ class Member_model extends CI_Model{
                 $query = $this->db->get();
                 $result = $query->row_array();
             }else{
-                $this->db->order_by('firstname', 'asc');
+                $this->db->order_by('id', 'asc');
                 if(array_key_exists("start",$params) && array_key_exists("limit",$params)){
                     $this->db->limit($params['limit'],$params['start']);
                 }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){

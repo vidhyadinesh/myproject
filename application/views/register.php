@@ -41,49 +41,56 @@
 			<h3 class="text-center">Signup Form</h3>
 			<form method="POST" action="<?php echo base_url().'user/register'; ?>">
 				<div class="form-group">
-					<label for="email">First name:</label>
-					<input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo set_value('firstname'); ?>">
+					<label for="firstname">First name:</label>
+					<input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo set_value('firstname'); ?>" required>
 				</div>
 				<div class="form-group">
-					<label for="email">Last name:</label>
-					<input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo set_value('lastname'); ?>">
+					<label for="lastname">Last name:</label>
+					<input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo set_value('lastname'); ?>" required>
 				</div>
 				<div class="form-group">
-					<label for="email">Phone number:</label>
-					<input type="text" class="form-control" id="phonenumber" name="phonenumber" value="<?php echo set_value('phonenumber'); ?>">
+					<label for="phonenumber">Phone number:</label>
+					<input type="text" class="form-control" id="phonenumber" name="phonenumber" value="<?php echo set_value('phonenumber'); ?>" required pattern="^\s*(([+]\s?\d[-\s]?\d|0)?\s?\d([-\s]?\d){9}|[(]\s?\d([-\s]?\d)+\s*[)]([-\s]?\d)+)\s*$" list="phones_pattern2_datalist">
 				</div>
 				<div class="form-group">
-					<label for="email">Date of birth:</label>
-					<input type="text" class="form-control" id="dateofbirth" name="dateofbirth" value="<?php echo set_value('dateofbirth'); ?>" placeholder="MM-DD-YYYY">
+					<label for="dateofbirth">Date of birth:</label>
+					<input type="text" class="form-control" id="dateofbirth" name="dateofbirth" value="<?php echo set_value('dateofbirth'); ?>" placeholder="MM-DD-YYYY" required>
 				</div>
 				<div class="form-group">
 					<label for="email">Email:</label>
-					<input type="text" class="form-control" id="email" name="email" value="<?php echo set_value('email'); ?>">
+					<input type="text" class="form-control" id="email" name="email" value="<?php echo set_value('email'); ?>" required>
 				</div>
 				<div class="form-group">
 					<label for="password">Password:</label>
-					<input type="password" class="form-control" id="password" name="password" value="<?php echo set_value('password'); ?>">
+					<input type="password" class="form-control" id="password" name="password" value="<?php echo set_value('password'); ?>" required>
 				</div>
 				<div class="form-group">
 					<label for="password_confirm">Password:</label>
-					<input type="password" class="form-control" id="password_confirm" name="password_confirm" value="<?php echo set_value('password_confirm'); ?>">
+					<input type="password" class="form-control" id="password_confirm" name="password_confirm" value="<?php echo set_value('password_confirm'); ?>" required>
 				</div>
 				<div class="form-group">
-					<label for="email">Country:</label>
-					<select class="form-control" id="country" name="country">
+					<label for="country">Country:</label>
+					<select class="form-control" id="country" name="country" required>
 						<option value="UK">UK</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<label for="email">Subscription For (either of type: story, comment, poll) :</label>
-					<select class="form-control" id="rdbsubscription" name="rdbsubscription">
+					<label for="rdbsubscription">Subscription For (either of type: story, comment, poll) :</label>
+					<select class="form-control" id="rdbsubscription" name="rdbsubscription" required>
 						<option value="">--Select--</option>
 						<option value="story" <?php echo (set_value('rdbsubscription')=='story')?'selected':'';?> >story</option>
 						<option value="comment" <?php echo (set_value('rdbsubscription')=='comment')?'selected':'';?> >comment</option>
 						<option value="poll" <?php echo (set_value('rdbsubscription')=='poll')?'selected':'';?>>poll</option>
 					</select> 
 				</div>
-				
+				<div class="form-group">
+					<label for="rdbsubscription">Submit the word you see below:</label>
+					<?php echo $cap['image'];?>
+				</div>
+				<div class="form-group">
+					<label for="rdbsubscription"></label>					
+					<input type="text" name="captcha" value="" class="form-control"/>
+				</div>
 				<button type="submit" class="btn btn-primary">Register</button>
 			</form>
 		</div>

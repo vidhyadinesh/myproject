@@ -63,12 +63,15 @@
                 <?php } }else{ ?>
                 <tr><td colspan="7">No member(s) found...</td></tr>
                 <?php } ?>
+                <tr><td colspan="7">
+                    <div class="pagination">
+    <ul>
+        <?php echo $this->pagination->create_links(); ?>
+    </ul>    
+</div></td></tr>
             </tbody>
         </table>
     
-        <!-- Display pagination links -->
-        <div class="pagination pull-right">
-            <?php echo $this->pagination->create_links(); ?>
-        </div>
+        
     </div>
 </div>

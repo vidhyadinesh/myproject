@@ -15,10 +15,27 @@ class User extends CI_Controller {
 	}
 
 	public function index(){
+		$this->load->helper('captcha');
+		$vals = array(
+		    'img_path' => './captcha/',
+		    'img_url' => base_url().'captcha/'
+		    );
+
+		$this->data['cap'] = create_captcha($vals);
+
+		$data = array(
+		    'captcha_time' => $this->data['cap']['time'],
+		    'ip_address' => $this->input->ip_address(),
+		    'word' => $this->data['cap']['word']
+		    );
+
+		$query = $this->db->insert_string('captcha', $data);
+		$this->db->query($query);
 		$this->load->view('register', $this->data);
 	}
 
 	public function register(){
+
 		$this->form_validation->set_rules('firstname', 'First name', 'required|max_length[100]');
 		$this->form_validation->set_rules('lastname', 'Last name', 'required|max_length[100]');
 		$this->form_validation->set_rules('phonenumber', 'Phone number', 'required|max_length[100]');
@@ -32,6 +49,22 @@ class User extends CI_Controller {
          	$this->load->view('register', $this->data);
 		}
 		else{
+			// First, delete old captchas
+			$expiration = time()-7200; // Two hour limit
+			$this->db->query("DELETE FROM captcha WHERE captcha_time < ".$expiration);
+
+			// Then see if a captcha exists:
+			$sql = "SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND captcha_time > ?";
+			$binds = array($_POST['captcha'], $this->input->ip_address(), $expiration);
+			$query = $this->db->query($sql, $binds);
+			$row = $query->row();
+
+			if ($row->count == 0)
+			{
+			    
+			    $this->session->set_flashdata('message','You must submit the word that appears in the image');
+			    redirect('user');
+			}
 			//get user inputs
 			$firstname = $this->input->post('firstname');
 			$lastname = $this->input->post('lastname');
@@ -102,8 +135,8 @@ class User extends CI_Controller {
 		    	$this->session->set_flashdata('message', $this->email->print_debugger());
 	 
 		    }
-
-        	redirect('register');
+           
+        	redirect('user');
 		}
 
 	}
@@ -158,7 +191,7 @@ class User extends CI_Controller {
 			$this->session->set_flashdata('message', 'Cannot activate account. Code didnt match');
 		}
 
-		redirect('register');
+		redirect('user');
 
 	}
 
@@ -176,7 +209,7 @@ class User extends CI_Controller {
 			$password = $this->input->post('password');
 			
             $user = $this->users_model->getUserData(array('email'=>$email,'password'=>$password));
-            
+            if(!empty($user )){
                         $data = array(
                     'id' =>$user['id'],
                     'email' =>$user['email'],
@@ -188,6 +221,10 @@ class User extends CI_Controller {
 
 		    
         	redirect('user/home');
+            }else{
+            	$this->session->set_flashdata('message', 'Invalid email or password');
+            	redirect('user/login');
+            }
 		}
 
 	}
@@ -197,15 +234,9 @@ class User extends CI_Controller {
 		  
         
          $user = $this->users_model->getUserData(array('id'=>$this->session->userdata('id')));
-       
-        $this->data['subscriptioncontent']=json_decode($user['subscriptioncontent']);
-
-        
-        
-        
-        
-        $this->data['subscriptioncontent'] = $this->data['subscriptioncontent'];
-        $this->data['title'] = 'Subscriptions';
+       $this->data['subscription']=$user['subscription'];
+          $this->data['subscriptioncontent']=$user['subscriptioncontent'];
+           $this->data['title'] = 'Subscriptions';
         	$this->load->view('header', $this->data);
         	$this->load->view('sidebar', $this->data);
          	$this->load->view('home', $this->data);

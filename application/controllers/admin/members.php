@@ -18,7 +18,7 @@ class Members extends CI_Controller {
         $this->load->library('pagination');
         
         // Per page limit
-        $this->perPage = 5;
+        $this->perPage = 3;
     }
     private function check_isvalidated(){
         if(! $this->session->userdata('validated')){
@@ -63,12 +63,18 @@ class Members extends CI_Controller {
         $config['uri_segment'] = 3;
         $config['total_rows']  = $rowsCount;
         $config['per_page']    = $this->perPage;
+        $config['use_page_numbers']  = TRUE;
+        $config['first_tag_open'] = $config['last_tag_open']= $config['next_tag_open']= $config['prev_tag_open'] = $config['num_tag_open'] = '<li>';
+        $config['first_tag_close'] = $config['last_tag_close']= $config['next_tag_close']= $config['prev_tag_close'] = $config['num_tag_close'] = '</li>';
+         
+        $config['cur_tag_open'] = "<li><span><b>";
+        $config['cur_tag_close'] = "</b></span></li>";
         
         // Initialize pagination library
         $this->pagination->initialize($config);
         
         // Define offset
-        $page = $this->uri->segment(3);
+        $page = $this->uri->segment(4);
         $offset = !$page?0:$page;
         
         // Get rows
