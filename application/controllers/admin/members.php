@@ -60,14 +60,15 @@ class Members extends CI_Controller {
         
         // Pagination config
         $config['base_url']    = base_url().'admin/members/index/';
-        $config['uri_segment'] = 3;
+        $config['uri_segment'] = 4;
         $config['total_rows']  = $rowsCount;
         $config['per_page']    = $this->perPage;
-        $config['use_page_numbers']  = TRUE;
+        
+        
         $config['first_tag_open'] = $config['last_tag_open']= $config['next_tag_open']= $config['prev_tag_open'] = $config['num_tag_open'] = '<li>';
         $config['first_tag_close'] = $config['last_tag_close']= $config['next_tag_close']= $config['prev_tag_close'] = $config['num_tag_close'] = '</li>';
          
-        $config['cur_tag_open'] = "<li><span><b>";
+        $config['cur_tag_open'] = '<li style="padding: 0 14px;line-height: 34px;"><span><b>';
         $config['cur_tag_close'] = "</b></span></li>";
         
         // Initialize pagination library
